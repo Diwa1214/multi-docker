@@ -1,0 +1,58 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+      - '5432:5432'
+    volumes: 
+      - pgdata:/var/lib/postgresql/data
+  redis:
+    image: redis
+
+  nginx:
+    build:
+      dockerfile: Dockerfile.dev 
+      context: ./nginx
+    restart: always
+    ports:
+      - '3050:80'
+
+  client:
+    build:
+     dockerfile: Dockerfile.dev 
+     context: ./front-end/fibo
+    volumes:
+      - /app/node_modules
+      - ./front-end/fibo:/app
+
+  workers:
+    build: 
+      dockerfile: Dockerfile.dev 
+      context: ./workers
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    restart: on-failure
+    volumes:
+      - /app/node_modules
+      - ./workers:/app
+  
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    restart: on-failure
+    volumes:
+      - /usr/app/node_modules
+      - ./server:/usr/app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PORT=5432 
+      - POSTGRES_HOST=postgres
+volumes:
+ pgdata:
+   
