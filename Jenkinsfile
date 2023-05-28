@@ -11,7 +11,7 @@ pipeline {
 
         stage('Docker Exista'){
            steps{
-              sh 'Docker version'
+              sh 'docker version'
            }
         }
 
