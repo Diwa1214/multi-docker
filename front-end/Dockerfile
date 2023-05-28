@@ -17,7 +17,7 @@ RUN npm run build
 
 
 
-FROM ngnix 
+FROM nginx 
 
 EXPOSE 3000
 
