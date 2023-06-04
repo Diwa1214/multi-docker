@@ -50,8 +50,40 @@ pipeline {
                     
                     // Upload the Dockerrun.aws.json file to S3
                     sh "aws s3 cp Dockerrun.aws.json s3://elasticbeanstalk-us-east-1-862399869074/docker-multi/s3/Dockerrun.aws.json"
+                    
+               
+              }
+           }
+        }
 
-                    sh "pip install awsebcli --upgrade --user"
+
+      //     stage('Deploy to Elastic Beanstalk'){
+      //      steps{
+      //         withEnv ([ 'AWS_ACCESS_KEY_ID = ${env.AWS_ACCESS_KEY_ID}', 'AWS_SECRET_ACCESS_KEY = ${env.AWS_SECRET_ACCESS_KEY}' ]){
+                     
+      //               // Set AWS credentials for the aws command
+      //               sh 'export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID'
+      //               sh 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY'
+                    
+      //                // Deploy the Dockerrun.aws.json file to Elastic Beanstalk
+      //               sh 'eb deploy'
+
+               
+      //         }
+      //      }
+      //   }
+
+          stage('Create Application Version'){
+           steps{
+              withEnv ([ 'AWS_ACCESS_KEY_ID = ${env.AWS_ACCESS_KEY_ID}', 'AWS_SECRET_ACCESS_KEY = ${env.AWS_SECRET_ACCESS_KEY}' ]){
+                     
+                    // Set AWS credentials for the aws command
+                    sh 'export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID'
+                    sh 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY'
+                    
+                      // Create an application version in Elastic Beanstalk
+                    sh "aws elasticbeanstalk create-application-version --application-name multi-docker-application --version-label jenkins-1 --source-bundle S3Bucket=elasticbeanstalk-us-east-1-862399869074,S3Key=docker-multi/s3/Dockerrun.aws.json"
+
                
               }
            }
@@ -66,8 +98,8 @@ pipeline {
                     sh 'export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID'
                     sh 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY'
                     
-                     // Deploy the Dockerrun.aws.json file to Elastic Beanstalk
-                    sh 'eb deploy'
+                      // Update the environment to use the new application version
+                    sh "aws elasticbeanstalk update-environment --application-name multi-docker-application  --environment-name Multi-docker-application-env --version-label jenkins-1"
 
                
               }
