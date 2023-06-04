@@ -50,6 +50,8 @@ pipeline {
                     
                     // Upload the Dockerrun.aws.json file to S3
                     sh "aws s3 cp Dockerrun.aws.json s3://elasticbeanstalk-us-east-1-862399869074/docker-multi/s3/Dockerrun.aws.json"
+
+                    sh "pip install awsebcli --upgrade --user"
                
               }
            }
