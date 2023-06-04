@@ -49,12 +49,28 @@ pipeline {
                     sh 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY'
                     
                     // Upload the Dockerrun.aws.json file to S3
-                    sh "aws s3 cp Dockerrun.aws.json s3://elasticbeanstalk-us-east-1-862399869074/docker-multi"
+                    sh "aws s3 cp Dockerrun.aws.json s3://elasticbeanstalk-us-east-1-862399869074/docker-multi/s3/Dockerrun.aws.json"
                
               }
            }
         }
 
+
+          stage('Deploy to Elastic Beanstalk'){
+           steps{
+              withEnv ([ 'AWS_ACCESS_KEY_ID = ${env.AWS_ACCESS_KEY_ID}', 'AWS_SECRET_ACCESS_KEY = ${env.AWS_SECRET_ACCESS_KEY}' ]){
+                     
+                    // Set AWS credentials for the aws command
+                    sh 'export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID'
+                    sh 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY'
+                    
+                     // Deploy the Dockerrun.aws.json file to Elastic Beanstalk
+                    sh 'eb deploy'
+
+               
+              }
+           }
+        }
 
 
     }
