@@ -19,8 +19,9 @@ RUN npm run build
 
 FROM nginx 
 
+# It was already redirect to port 80 -> 3000 main nginx  file 
 EXPOSE 3000
 
-COPY ./ngnix/default.conf /etc/ngnix/conf.d/default.conf
+COPY ./ngnix/default.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=ProdBuilder /usr/app/build /usr/share/nginx/html

@@ -1,0 +1,36 @@
+{
+    "AWSEBDockerrunVersion":2,
+    "containerDefinitions":[
+        {
+            "name":"client",
+            "image":"diwa1214/dev:multi-client",
+            "hostname":"client",
+            "esstenial":false
+        },
+        {
+            "name":"backend",
+            "image":"diwa1214/dev:multi-server",
+            "hostname":"diwa1214/dev:multi-server",
+            "esstenial":false
+        },
+        {
+            "name":"workers",
+            "image":"diwa1214/dev:multi-workers",
+            "esstenial":false
+        },
+        {
+            "name":"nginx",
+            "image":"diwa1214/dev:multi-ngnix",
+            "esstenial":true,
+            "portMappings":[
+                {
+                    "hostPort":80,
+                    "containerPort":80
+                }
+            ],
+            "link":["client","backend"]
+        }
+        
+
+    ]
+}
