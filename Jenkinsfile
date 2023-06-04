@@ -65,7 +65,7 @@ pipeline {
                     sh 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY'
                     
                       // Create an application version in Elastic Beanstalk
-                    sh "aws elasticbeanstalk create-application-version --application-name multi-docker-application --version-label jenkins-1 --source-bundle S3Bucket=elasticbeanstalk-us-east-1-862399869074,S3Key=docker-multi/s3/Dockerrun.aws.json"
+                    sh "aws elasticbeanstalk create-application-version --application-name multi-docker-application --version-label jenkins-${BUILD_NUMBER} --source-bundle S3Bucket=elasticbeanstalk-us-east-1-862399869074,S3Key=docker-multi/s3/Dockerrun.aws.json"
 
                
               }
@@ -82,7 +82,7 @@ pipeline {
                     sh 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY'
                     
                       // Update the environment to use the new application version
-                    sh "aws elasticbeanstalk update-environment --application-name multi-docker-application  --environment-name Multi-docker-application-env --version-label jenkins-1"
+                    sh "aws elasticbeanstalk update-environment --application-name multi-docker-application  --environment-name Multi-docker-application-env --version-label jenkins-${BUILD_NUMBER}"
 
                
               }
