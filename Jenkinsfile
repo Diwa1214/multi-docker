@@ -56,23 +56,6 @@ pipeline {
            }
         }
 
-
-      //     stage('Deploy to Elastic Beanstalk'){
-      //      steps{
-      //         withEnv ([ 'AWS_ACCESS_KEY_ID = ${env.AWS_ACCESS_KEY_ID}', 'AWS_SECRET_ACCESS_KEY = ${env.AWS_SECRET_ACCESS_KEY}' ]){
-                     
-      //               // Set AWS credentials for the aws command
-      //               sh 'export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID'
-      //               sh 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY'
-                    
-      //                // Deploy the Dockerrun.aws.json file to Elastic Beanstalk
-      //               sh 'eb deploy'
-
-               
-      //         }
-      //      }
-      //   }
-
           stage('Create Application Version'){
            steps{
               withEnv ([ 'AWS_ACCESS_KEY_ID = ${env.AWS_ACCESS_KEY_ID}', 'AWS_SECRET_ACCESS_KEY = ${env.AWS_SECRET_ACCESS_KEY}' ]){
