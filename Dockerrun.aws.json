@@ -5,27 +5,31 @@
             "name":"client",
             "image":"diwa1214/dev:multi-client",
             "hostname":"client",
+            "memory": 128,
             "esstenial":false
         },
         {
             "name":"backend",
             "image":"diwa1214/dev:multi-server",
             "hostname":"diwa1214/dev:multi-server",
+            "memory": 128,
             "esstenial":false
         },
         {
             "name":"workers",
             "image":"diwa1214/dev:multi-workers",
+            "memory": 128,
             "esstenial":false
         },
         {
             "name":"nginx",
             "image":"diwa1214/dev:multi-ngnix",
             "esstenial":true,
-            "portMappings":[
+            "memory": 128,
+            "portMappings": [
                 {
-                    "hostPort":80,
-                    "containerPort":80
+                "hostPort": 80,
+                "containerPort": 80
                 }
             ],
             "link":["client","backend"]
