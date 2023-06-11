@@ -63,9 +63,6 @@ pipeline {
                     // Set AWS credentials for the aws command
                     sh 'export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID'
                     sh 'export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY'
-
-                    sh "aws elasticbeanstalk delete-application-version --application-name <your-application-name> --version-label jenkins-${BUILD_NUMBER - 1}"
-"
                     
                       // Create an application version in Elastic Beanstalk
                     sh "aws elasticbeanstalk create-application-version --application-name multi-docker-application --version-label jenkins-${BUILD_NUMBER} --source-bundle S3Bucket=elasticbeanstalk-us-east-1-862399869074,S3Key=docker-multi/s3/Dockerrun.aws.json"
